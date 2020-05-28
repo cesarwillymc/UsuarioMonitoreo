@@ -1,7 +1,9 @@
 package com.consorciosm.usuariomonitoreo.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.webkit.PermissionRequest
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -14,6 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.consorciosm.usuariomonitoreo.R
+import com.consorciosm.usuariomonitoreo.data.service.LocationBackground
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +49,35 @@ class MainActivity : AppCompatActivity() {
         ), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        Dexter.withContext(this).withPermissions(
+            listOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        ).withListener(object : MultiplePermissionsListener {
+            override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
+//                start.setOnClickListener {
+//                    startService(Intent(applicationContext, LocationBackground::class.java))
+////                    WorkManager.getInstance(this@MainActivity)
+////                        .enqueueUniquePeriodicWork("Location", ExistingPeriodicWorkPolicy.REPLACE, periodicWork)
+//                }
+//                stop.setOnClickListener {
+//                    stopService(Intent(applicationContext,LocationBackground::class.java))
+////                    WorkManager.getInstance(this@MainActivity).cancelAllWork()
+//                }
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
+                p1: PermissionToken?
+            ) {
+            }
+
+
+
+        }).check()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
