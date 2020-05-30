@@ -25,6 +25,7 @@ import com.consorciosm.usuariomonitoreo.data.local.db.AppDB
 import com.consorciosm.usuariomonitoreo.data.model.PuntosFirebase
 import com.consorciosm.usuariomonitoreo.data.model.vehiculo.Carro
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Job
 
 class LocationBackground: Service() {
 
@@ -58,7 +59,7 @@ class LocationBackground: Service() {
     private var mLocationCallback: LocationCallback? = null
     private val mBinder = LocalBinder()
 
-
+    private lateinit var trabajo:Job
     class LocalBinder : Binder() {
         fun getService():LocationBackground = LocationBackground()
     }
@@ -68,12 +69,15 @@ class LocationBackground: Service() {
     }
 
     override fun onCreate() {
+        val value= PuntosFirebase(213213.toDouble(),213213.toDouble(),true,213,"asasdd")
+        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
 //        datosCar=AppDB(getContextApp()).vehiculoDao().selectCarro().value!!
         super.onCreate()
     }
 
     override fun onDestroy() {
-
+        trabajo.cancel()
+        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).update("state",false)
         super.onDestroy()
     }
 
@@ -94,7 +98,7 @@ class LocationBackground: Service() {
                 mLocationRequest.interval = UPDATE_INTERVAL_IN_MILLISECONDS;
                 mLocationRequest.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
                 mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                Coroutines.main{
+                trabajo=Coroutines.main{
 
                     repeat(800000){
                         try {
@@ -106,9 +110,8 @@ class LocationBackground: Service() {
                                         displayNotify("Daloo Rider esta obteniendo tu ubicacion!.","Mantente conectado: ${mLocation!!.latitude}   ${mLocation!!.longitude}")
                                         Log.e(TAG, "Location : $mLocation")
 
-
-                                        val value=PuntosFirebase(mLocation!!.latitude,mLocation!!.longitude,true,getSomeIntValue(PREF_COLOR)!!,getSomeStringValue(PREF_PLACA)!!)
-                                        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
+                                        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!)
+                                            .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude)
                                         mFusedLocationClient.removeLocationUpdates(mLocationCallback)
                                     } else {
                                         Log.e(TAG, "Failed to get location.")

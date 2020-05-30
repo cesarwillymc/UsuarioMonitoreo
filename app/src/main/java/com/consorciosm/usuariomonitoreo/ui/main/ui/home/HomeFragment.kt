@@ -43,9 +43,6 @@ class HomeFragment : BaseFragment() , KodeinAware {
             if (fd_img_switch.isSelected){
                 comprobarDatos()
             } else{
-                val value= PuntosFirebase(213213.toDouble(),213213.toDouble(),false,213,"asasdd")
-
-                FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
                 viewModel.deleteCarro()
             }
 
