@@ -5,4 +5,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="buttonBackColor" parent="android:Theme.Holo">
+        <item name="android:homeAsUpIndicator">@drawable/ic_back_white</item>
+    </style>
 </resources>

@@ -7,10 +7,13 @@ import androidx.room.RoomDatabase
 import com.consorciosm.usuariomonitoreo.data.model.Usuario
 import com.consorciosm.usuariomonitoreo.common.constants.Constants
 import com.consorciosm.usuariomonitoreo.data.local.dao.UsuarioDao
+import com.consorciosm.usuariomonitoreo.data.local.dao.VehiculoDao
+import com.consorciosm.usuariomonitoreo.data.model.vehiculo.Carro
 
-@Database(entities = [Usuario::class],version = 3)
+@Database(entities = [Usuario::class,Carro::class],version = 6)
 abstract class AppDB:RoomDatabase() {
     abstract fun usuarioDao(): UsuarioDao
+    abstract fun vehiculoDao(): VehiculoDao
     companion object{
         @Volatile
         private var INSTANCE:AppDB?=null

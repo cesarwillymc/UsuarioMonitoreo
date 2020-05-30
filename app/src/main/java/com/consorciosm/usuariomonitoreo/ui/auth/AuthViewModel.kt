@@ -30,15 +30,7 @@ class AuthViewModel(private val repo: AuthRepository) :ViewModel(){
             emit(Resource.Failure(e))
         }
     }
-    fun SignUp(usuario: requestSignUp):LiveData<Resource<Unit>> = liveData(Dispatchers.IO){
-        emit(Resource.Loading())
-        try{
-            repo.SignUpAuth(usuario)
-            emit(Resource.Success(Unit))
-        }catch (e:Exception){
-            emit(Resource.Failure(e))
-        }
-    }
+
 
     fun IsValidNumber(phone:String):Boolean= phone.length>=9
     fun IsValidNumberDoc(dni:String):Boolean= dni.length==8

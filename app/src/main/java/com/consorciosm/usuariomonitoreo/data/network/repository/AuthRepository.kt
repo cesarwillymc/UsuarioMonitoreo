@@ -19,9 +19,7 @@ class AuthRepository(
     fun deleteUser()= db.usuarioDao().deleteUsuario()
     suspend fun saveUser(perfilUsuario: Usuario)= db.usuarioDao().insertUsuario(perfilUsuario)
     fun getUser()=db.usuarioDao().selectUsuario()
-    suspend  fun SignUpAuth(model: requestSignUp): ResponseGeneral {
-        return apiRequest { api.createUser(model) }
-    }
+
     suspend fun SignInAuth(email: String, pass: String):requestSignIn{
         return apiRequest { api.loginUser(requestSignIn(email,pass)) }
     }

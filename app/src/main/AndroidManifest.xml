@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.consorciosm.usuariomonitoreo">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
-        android:name="com.consorciosm.usuariomonitoreo.app.MyApp"
+        android:name=".app.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <service android:name=".data.service.LocationBackground"/>
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.consorciosm.usuariomonitoreo.ui.main.MainActivity"
-            android:label="@string/app_name"
+            android:name=".ui.main.MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <service android:name=".data.service.LocationBackground" />
+
+        <activity android:name=".ui.SphashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.consorciosm.usuariomonitoreo.ui.SphashScreen"/>
-        <activity android:name="com.consorciosm.usuariomonitoreo.ui.auth.view.LoginActivity"/>
+        <activity android:name=".ui.auth.view.LoginActivity" />
     </application>
 
 </manifest>

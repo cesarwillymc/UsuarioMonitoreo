@@ -15,6 +15,16 @@ import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
 import java.text.ParseException
 import com.consorciosm.usuariomonitoreo.R
+import com.consorciosm.usuariomonitoreo.app.MyApp.Companion.getContextApp
+import com.consorciosm.usuariomonitoreo.common.constants.Constants.PREF_COLOR
+import com.consorciosm.usuariomonitoreo.common.constants.Constants.PREF_ID_USER
+import com.consorciosm.usuariomonitoreo.common.constants.Constants.PREF_PLACA
+import com.consorciosm.usuariomonitoreo.common.shared.SharedPreferencsManager.Companion.getSomeIntValue
+import com.consorciosm.usuariomonitoreo.common.shared.SharedPreferencsManager.Companion.getSomeStringValue
+import com.consorciosm.usuariomonitoreo.data.local.db.AppDB
+import com.consorciosm.usuariomonitoreo.data.model.PuntosFirebase
+import com.consorciosm.usuariomonitoreo.data.model.vehiculo.Carro
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LocationBackground: Service() {
 
@@ -58,6 +68,7 @@ class LocationBackground: Service() {
     }
 
     override fun onCreate() {
+//        datosCar=AppDB(getContextApp()).vehiculoDao().selectCarro().value!!
         super.onCreate()
     }
 
@@ -94,6 +105,10 @@ class LocationBackground: Service() {
                                         mLocation = it.result
                                         displayNotify("Daloo Rider esta obteniendo tu ubicacion!.","Mantente conectado: ${mLocation!!.latitude}   ${mLocation!!.longitude}")
                                         Log.e(TAG, "Location : $mLocation")
+
+
+                                        val value=PuntosFirebase(mLocation!!.latitude,mLocation!!.longitude,true,getSomeIntValue(PREF_COLOR)!!,getSomeStringValue(PREF_PLACA)!!)
+                                        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
                                         mFusedLocationClient.removeLocationUpdates(mLocationCallback)
                                     } else {
                                         Log.e(TAG, "Failed to get location.")

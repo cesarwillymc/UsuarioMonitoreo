@@ -1,9 +1,11 @@
 package com.consorciosm.usuariomonitoreo.data.model
 
+import com.consorciosm.usuariomonitoreo.data.model.vehiculo.Carro
+
 data class ParteDiario(
     var fechaDia:String,
     var conductor:Usuario,
-    var vehiculo:VehiculoInfo,
+    var vehiculo: Carro,
     var actividadDiaria:ActividadDiaria,
     var kilometraje:Kilometraje,
     var ncombustible:Ncombustible,

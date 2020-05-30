@@ -2,6 +2,7 @@ package com.consorciosm.usuariomonitoreo.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
@@ -10,9 +11,9 @@ import com.consorciosm.usuariomonitoreo.base.BaseActivity
 import com.consorciosm.usuariomonitoreo.common.shared.SharedPreferencsManager
 import com.consorciosm.usuariomonitoreo.ui.auth.AuthViewModel
 import com.consorciosm.usuariomonitoreo.ui.auth.AuthViewModelFactory
-import com.consorciosm.usuariomonitoreo.ui.main.MainActivity
 import com.consorciosm.usuariomonitoreo.R
 import com.consorciosm.usuariomonitoreo.ui.auth.view.LoginActivity
+import com.consorciosm.usuariomonitoreo.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_sphash_screen.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
