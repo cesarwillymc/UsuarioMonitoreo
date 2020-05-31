@@ -60,6 +60,8 @@ class LocationBackground: Service() {
     private val mBinder = LocalBinder()
 
     private lateinit var trabajo:Job
+    var latitudAnterior =0.toDouble()
+    var longitudAnterior=0.toDouble()
     class LocalBinder : Binder() {
         fun getService():LocationBackground = LocationBackground()
     }
@@ -69,7 +71,8 @@ class LocationBackground: Service() {
     }
 
     override fun onCreate() {
-        val value= PuntosFirebase(213213.toDouble(),213213.toDouble(),true,213,"asasdd")
+        val value= PuntosFirebase(213213.toDouble(),213213.toDouble(),true, getSomeIntValue(
+            PREF_COLOR)!!, getSomeStringValue(PREF_PLACA)!!,getSomeStringValue(PREF_ID_USER)!!,2662.toDouble(),2662.toDouble())
         FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
 //        datosCar=AppDB(getContextApp()).vehiculoDao().selectCarro().value!!
         super.onCreate()
@@ -108,10 +111,21 @@ class LocationBackground: Service() {
                                     if (it.isSuccessful && it.result != null) {
                                         mLocation = it.result
                                         displayNotify("Daloo Rider esta obteniendo tu ubicacion!.","Mantente conectado: ${mLocation!!.latitude}   ${mLocation!!.longitude}")
-                                        Log.e(TAG, "Location : $mLocation")
+
+                                        if (latitudAnterior==0.toDouble()&&longitudAnterior==0.toDouble()){
+                                            latitudAnterior=mLocation!!.latitude
+                                            longitudAnterior=mLocation!!.longitude
+                                        }
 
                                         FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!)
-                                            .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude)
+                                            .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude,
+                                                "latAnterior",latitudAnterior,"latPosterior",longitudAnterior).addOnCompleteListener {
+                                                if (it.isSuccessful){
+                                                    Log.e(TAG, "Location : $mLocation")
+                                                    latitudAnterior=mLocation!!.latitude
+                                                    longitudAnterior=mLocation!!.longitude
+                                                }
+                                            }
                                         mFusedLocationClient.removeLocationUpdates(mLocationCallback)
                                     } else {
                                         Log.e(TAG, "Failed to get location.")
@@ -120,7 +134,7 @@ class LocationBackground: Service() {
                         } catch (unlikely: SecurityException) {
                             Log.e(TAG, "Lost location permission.$unlikely")
                         }
-                        delay(10000L)
+                        delay(5000L)
                     }
 
                 }

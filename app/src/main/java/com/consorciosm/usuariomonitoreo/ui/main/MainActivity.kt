@@ -1,5 +1,6 @@
 package com.consorciosm.usuariomonitoreo.ui.main
 
+import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -54,7 +55,10 @@ class MainActivity : BaseActivity(),KodeinAware {
                 listOf(
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
                     android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             ).withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {

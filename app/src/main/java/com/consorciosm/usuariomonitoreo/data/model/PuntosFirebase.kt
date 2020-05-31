@@ -5,5 +5,8 @@ data class PuntosFirebase(
     var longitude:Double,
     var state:Boolean,
     var color:Int,
-    var placa:String
+    var placa:String,
+    var id:String,
+    var latAnterior:Double,
+    var latPosterior:Double
 )
