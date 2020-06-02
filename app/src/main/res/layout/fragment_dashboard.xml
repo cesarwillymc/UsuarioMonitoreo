@@ -293,6 +293,7 @@
                                 android:text="Tarjeta de Propiedad" />
 
                             <CheckBox
+
                                 android:id="@+id/cb_tarjeta_proiedad_fparte"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"

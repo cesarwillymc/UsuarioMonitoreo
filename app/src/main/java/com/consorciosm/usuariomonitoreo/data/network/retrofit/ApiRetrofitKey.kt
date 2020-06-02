@@ -1,10 +1,7 @@
 package com.consorciosm.usuariomonitoreo.data.network.retrofit
 
-import com.consorciosm.usuariomonitoreo.data.model.Usuario
-import com.consorciosm.usuariomonitoreo.data.model.requestSignIn
 import com.consorciosm.usuariomonitoreo.common.constants.Constants.BASE_URL_API
-import com.consorciosm.usuariomonitoreo.data.model.ParteDiario
-import com.consorciosm.usuariomonitoreo.data.model.ResponseGeneral
+import com.consorciosm.usuariomonitoreo.data.model.*
 import com.consorciosm.usuariomonitoreo.data.model.vehiculo.Carro
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -26,12 +23,12 @@ interface ApiRetrofitKey {
     @GET("user/choferInfo")
     suspend fun getVehiculoVinculado(): Response<Carro>
 
-    @POST("user/login")
+    @PUT("user/parte")
     suspend fun sendParte(
-        @Body parteDiario: ParteDiario
+        @Body parteDiario: Parte
     ): Response<ResponseGeneral>
     @Multipart
-    @PUT("admin/carImg/{carId}")
+    @PUT("user/carCombustible/{carId}")
     suspend fun createImgConbustible(
         @Part file: MultipartBody.Part,
         @Part("carImg") name: RequestBody,
@@ -39,6 +36,15 @@ interface ApiRetrofitKey {
     ): Response<ResponseGeneral>
     @GET("user/parte")
     suspend fun obtenerParte(): Response<ParteDiario>
+
+    @GET("user/getListMensajes")
+    suspend fun getListNotificaciones(
+        @Query("pagina") pagina:Int
+    ):Response<List<NotificacionesList>>
+    @GET("supervisor/orden/{id}")
+    suspend fun getListNotificacionesById(
+        @Path("id") id:String
+    ):Response<OrdenProgramada>
     companion object{
         operator fun invoke() : ApiRetrofitKey{
             val okHttpClienteBuilder= OkHttpClient.Builder().addInterceptor(InterceptorToken()).build()

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -45,7 +46,7 @@ class MainActivity : BaseActivity(),KodeinAware {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,R.id.navigation_options
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -71,6 +72,12 @@ class MainActivity : BaseActivity(),KodeinAware {
                 }
             }).check()
         }
+        val badge = navView.getOrCreateBadge(navView.menu.findItem( R.id.navigation_notifications).itemId )
+        badge.isVisible = true
+        badge.number= 0
+        viewModel.obtenerNotificacionesCantidad.observe(this, Observer {
+            badge.number = it
+        })
 
     }
 

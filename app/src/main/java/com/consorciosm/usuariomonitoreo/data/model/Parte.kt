@@ -1,0 +1,33 @@
+package com.consorciosm.usuariomonitoreo.data.model
+
+data class Parte(
+    val AlarmaRetroceso: Boolean,
+    val Botiquin: Boolean,
+    val ConosSeguridad: Boolean,
+    val Espejos: Boolean,
+    val Extintor: Boolean,
+    val GataPalanca: Boolean,
+    val Herramientas: Boolean,
+    val HoraFin: String,
+    val Horainicio: String,
+    val Kilometraje: String,
+    val KilometrajeFin: String,
+    val Kilometrajeinicio: String,
+    val LiquidoFrenos: Boolean,
+    val LiquidoHidrolina: Boolean,
+    val LucesExteriores: Boolean,
+    val Ndecombustible: String,
+    val NivelAceite: Boolean,
+    val NivelAgua: Boolean,
+    val RefrigeranteRadiador: Boolean,
+    val Soat: Boolean,
+    val actividad: String,
+    val empresaProveedora: String,
+    val entradaGaraje: String,
+    val fechaDia: String,
+    val galones: String,
+    val licenciaEmpresa: String,
+    val salidaGaraje: String,
+    val tarjetaPropiedad: Boolean,
+    val imgNivelCombustible:String=""
+)
