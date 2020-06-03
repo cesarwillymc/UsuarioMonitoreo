@@ -71,8 +71,8 @@ class LocationBackground: Service() {
     }
 
     override fun onCreate() {
-        val value= PuntosFirebase(213213.toDouble(),213213.toDouble(),true, getSomeIntValue(
-            PREF_COLOR)!!, getSomeStringValue(PREF_PLACA)!!,getSomeStringValue(PREF_ID_USER)!!,2662.toDouble(),2662.toDouble())
+        val value= PuntosFirebase(0.toDouble(),0.toDouble(),false, getSomeIntValue(
+            PREF_COLOR)!!, getSomeStringValue(PREF_PLACA)!!,getSomeStringValue(PREF_ID_USER)!!,0.toDouble(),0.toDouble())
         FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
 //        datosCar=AppDB(getContextApp()).vehiculoDao().selectCarro().value!!
         super.onCreate()
@@ -116,16 +116,33 @@ class LocationBackground: Service() {
                                             latitudAnterior=mLocation!!.latitude
                                             longitudAnterior=mLocation!!.longitude
                                         }
-
-                                        FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!)
-                                            .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude,
-                                                "latAnterior",latitudAnterior,"latPosterior",longitudAnterior).addOnCompleteListener {
-                                                if (it.isSuccessful){
-                                                    Log.e(TAG, "Location : $mLocation")
-                                                    latitudAnterior=mLocation!!.latitude
-                                                    longitudAnterior=mLocation!!.longitude
+                                        val latitude=mLocation!!.latitude
+                                        val longitude=mLocation!!.longitude
+                                        Log.e("metros","$latitude  $longitude   \n ${latitudAnterior} ${longitudAnterior}" )
+                                        val puntoa = Location("pntoa")
+                                        puntoa.latitude=latitudAnterior
+                                        puntoa.longitude=longitudAnterior
+                                        val puntob = Location("distaaaaaa")
+                                        puntob.latitude= latitude
+                                        puntob.longitude= longitude
+                                        var metros=0f
+                                        metros = try{
+                                            puntoa.distanceTo(puntob)
+                                        }catch (e:Exception){
+                                            puntob.distanceTo(puntoa)
+                                        }
+                                        Log.e("metros"," $metros \n $latitude  $longitude   \n ${latitudAnterior} ${longitudAnterior}" )
+                                        if (metros<1500 ){
+                                            FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!)
+                                                .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude,
+                                                    "latAnterior",latitudAnterior,"latPosterior",longitudAnterior,"state",true).addOnCompleteListener {
+                                                    if (it.isSuccessful){
+                                                        Log.e(TAG, "Location : $mLocation")
+                                                        latitudAnterior=mLocation!!.latitude
+                                                        longitudAnterior=mLocation!!.longitude
+                                                    }
                                                 }
-                                            }
+                                        }
                                         mFusedLocationClient.removeLocationUpdates(mLocationCallback)
                                     } else {
                                         Log.e(TAG, "Failed to get location.")
@@ -134,7 +151,7 @@ class LocationBackground: Service() {
                         } catch (unlikely: SecurityException) {
                             Log.e(TAG, "Lost location permission.$unlikely")
                         }
-                        delay(5000L)
+                        delay(2000L)
                     }
 
                 }

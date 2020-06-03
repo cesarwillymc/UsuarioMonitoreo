@@ -893,6 +893,7 @@
                         android:layout_marginTop="16dp"
                         android:hint="10 Galones"
                         android:textColor="#000"
+                        android:inputType="number"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/TextView35"
                         app:layout_constraintTop_toBottomOf="@+id/TextView33" />

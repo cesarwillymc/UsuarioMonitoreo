@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.consorciosm.usuariomonitoreo.R
 import com.consorciosm.usuariomonitoreo.base.BaseFragment
 import com.consorciosm.usuariomonitoreo.common.shared.SharedPreferencsManager
+import com.consorciosm.usuariomonitoreo.data.service.LocationBackground
 import com.consorciosm.usuariomonitoreo.ui.auth.view.LoginActivity
 import com.consorciosm.usuariomonitoreo.ui.main.MainViewModelFactory
 import com.consorciosm.usuariomonitoreo.ui.main.ViewModelMain
@@ -34,8 +35,10 @@ class Options : BaseFragment(),KodeinAware {
             ViewModelProvider(this,factory).get(ViewModelMain::class.java)
         }
         img_logout.setOnClickListener {
+            requireActivity().stopService(Intent(requireContext(), LocationBackground::class.java))
             viewModel.deleteUser()
             viewModel.deleteCarro()
+
             SharedPreferencsManager.clearAllManagerShared()
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)

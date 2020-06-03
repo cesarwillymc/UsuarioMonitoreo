@@ -67,7 +67,7 @@ class LoginActivity : BaseActivity(), KodeinAware {
 
     private fun userLogin(email:String,pass:String) {
         if (email.isEmpty()){
-            al_edtxt_gmail.error="Tu correo esta vacio"
+            al_edtxt_gmail.error="Tu dni esta vacio"
             return
         }
         if (pass.isEmpty()){
@@ -75,7 +75,7 @@ class LoginActivity : BaseActivity(), KodeinAware {
             return
         }
         if (!viewModel.IsValidNumberDoc(email)){
-            al_edtxt_gmail.error="El correo no es valido"
+            al_edtxt_gmail.error="El dni no es valido"
             return
         }
         viewModel.SignIn(email,pass).observe(this, Observer {
