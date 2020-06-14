@@ -115,15 +115,20 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:gravity="end"
-                            android:text="Empresa Proveedora:" />
+                            android:text="Empresa Proveedora:"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
 
                         <EditText
                             android:id="@+id/lbl_empresaprov_fparte"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
-                            android:layout_marginLeft="5dp"
+                            android:elevation="10dp"
+                            android:clickable="true"
+                            android:editable="true"
+                            android:focusableInTouchMode="true"
+                            android:focusable="true"
                             android:hint="Fercan Contratistas" />
 
                     </LinearLayout>
@@ -138,25 +143,7 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ll_empresaproveedora_fp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="4"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:text="Licencia de la empresa:" />
-
-                        <EditText
-                            android:id="@+id/lbl_empresaprov_licencia"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:layout_marginLeft="5dp"
-                            android:hint="SAFSADA" />
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/ll_empresaproveedora_fp"/>
                     <LinearLayout
                         android:id="@+id/ll_horasalida_fp"
                         android:layout_width="match_parent"
@@ -752,7 +739,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
-                        android:hint="safasdnjsasnjsadsadkmsadmsamkdmksadmklsamkldmksadmklmlksadmklsamkldmsamkldmklsadmklsamkldmklsamdklmlsadmlsamldmklsamkldmklsadklsakmldmklsalmdlsadmlksadmlsamldmsladmlksamkldsakm"
+                        android:hint="Realize el viaje el dia lunes recogi a los pasajeros y relize la vigilancia por 5 horas, registre todos los datos en el manual, etc."
                         android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -811,7 +798,8 @@
                         android:layout_marginStart="10dp"
                         android:hint="1966 KM "
                         app:layout_constraintStart_toEndOf="@id/lbl_hora_inicio_fparte"
-
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         app:layout_constraintTop_toBottomOf="@id/textView27" />
 
 

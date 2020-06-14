@@ -77,6 +77,15 @@ class ViewModelMain(private val repo: MainRepository) :ViewModel(){
             emit(Resource.Failure(e))
         }
     }
+    fun obtenerParteKilometraje():LiveData<Resource<ParteDiario>> = liveData {
+        emit(Resource.Loading())
+        try {
+            val dato = repo.obtenerParteKilometraje()
+            emit(Resource.Success(dato as ParteDiario))
+        }catch (e:Exception){
+            emit(Resource.Failure(e))
+        }
+    }
     private fun guardarFotoEnArchivo(name: String, file: File): MultipartBody.Part? {
         var body: MultipartBody.Part? = null
         if (detectar_formato(file.path) == "ninguno") {

@@ -53,6 +53,7 @@ class HomeFragment : BaseFragment() , KodeinAware {
                 fd_text_switch.text= "APAGAR"
                 setSomeStringValue(PREF_PLACA,it.numeroPlaca)
                 setSomeIntValue(PREF_COLOR,it.color)
+                setSomeStringValue("IDVEHICULO",it._id)
                 requireActivity().startService(Intent(requireContext(), LocationBackground::class.java))
             }else{
                 requireActivity().stopService(Intent(requireContext(),LocationBackground::class.java))

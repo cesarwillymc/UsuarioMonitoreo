@@ -22,20 +22,24 @@ abstract class SafeApiRequest {
             return response.body()!!
         }else{
             val error= response.errorBody().toString()
-
-            val message= StringBuilder()
-            error?.let {
-                 try {
-                     val gson = Gson()
-                     val type = object : TypeToken<ErrorBody>() {}.type
-                     val errorResponse: ErrorBody? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                     Log.e("apisafe",errorResponse!!.message)
-                    message.append(errorResponse.message)
-                 }catch (e: Exception){ }
-                message.append("\n")
+            if(response.code()==401){
+                throw Exception("Logeate nuevamente, por seguridad.")
+            }else{
+                val message= StringBuilder()
+                error?.let {
+                    try {
+                        val gson = Gson()
+                        val type = object : TypeToken<ErrorBody>() {}.type
+                        val errorResponse: ErrorBody? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        Log.e("apisafe",errorResponse!!.message)
+                        message.append(errorResponse.message)
+                    }catch (e: Exception){ }
+                    message.append("\n")
+                }
+                message.append("Error code: ${response.code()}")
+                throw Exception(message.toString())
             }
-            message.append("Error code: ${response.code()}")
-            throw Exception(message.toString())
+
         }
     }
 }

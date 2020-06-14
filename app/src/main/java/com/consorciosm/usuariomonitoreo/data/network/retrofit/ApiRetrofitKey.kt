@@ -36,7 +36,8 @@ interface ApiRetrofitKey {
     ): Response<ResponseGeneral>
     @GET("user/parte")
     suspend fun obtenerParte(): Response<ParteDiario>
-
+    @GET("user/getKilometraje")
+    suspend fun obtenerParteKilometraje(): Response<ParteDiario>
     @GET("user/getListMensajes")
     suspend fun getListNotificaciones(
         @Query("pagina") pagina:Int

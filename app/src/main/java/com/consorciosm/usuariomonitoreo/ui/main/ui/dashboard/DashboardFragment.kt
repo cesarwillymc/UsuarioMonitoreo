@@ -55,14 +55,15 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
             ViewModelProvider(this,factory).get(ViewModelMain::class.java)
         }
         loadParte()
-        lbl_hora_inicio_fparte.setOnClickListener {
-            timeData="Kinicio"
-            showDialog()
-        }
-        lbl_hora_final_fparte.setOnClickListener {
-            timeData="Kfinal"
-            showDialog()
-        }
+
+//        lbl_hora_inicio_fparte.setOnClickListener {
+//            timeData="Kinicio"
+//            showDialog()
+//        }
+//        lbl_hora_final_fparte.setOnClickListener {
+//            timeData="Kfinal"
+//            showDialog()
+//        }
         lbl_horasalida_fparte.setOnClickListener {
             timeData="GarajeSalidainicio"
             showDialog()
@@ -95,7 +96,24 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
             else snakBar("No puedes modificar la photo que subiste anteriormente")
         }
     }
-
+    private fun loadKilometraje(){
+        viewModel.obtenerParteKilometraje().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when(it){
+                is Resource.Loading->{
+                    login_progressbar.visibility= View.VISIBLE
+                }
+                is Resource.Success->{
+                    login_progressbar.visibility= View.GONE
+                    lbl_kilometraje_inicio_fparte.setText(it.data.kilometraje)
+                }
+                is Resource.Failure->{
+                    snakBar(" ${it.exception.message}")
+                    Log.e("error", it.exception.message)
+                    login_progressbar.visibility= View.GONE
+                }
+            }
+        })
+    }
     private fun loadParte() {
         viewModel.getparte().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when(it){
@@ -109,6 +127,8 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
                         new = false
                         sendParte.text = "Actualizar Parte"
                         cargarDatosBind(it.data.parte)
+                    }else{
+                        loadKilometraje()
                     }
                 }
                 is Resource.Failure->{
@@ -122,7 +142,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
     private fun  updateParte(){
 
         val empresaproveedora=lbl_empresaprov_fparte.text.toString().trim()
-        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
+//        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
         val horasalida=lbl_horasalida_fparte.text.toString().trim()
         val horaentrada=lbl_horaingreso_fparte.text.toString().trim()
         val actividad=lbl_actividad_fparte.text.toString().trim()
@@ -153,7 +173,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
         val herramientas= cb_herramientas_fparte.isChecked
         val parte= Parte(alarmaRetroceso,botiquin,conosSeguridad,espejos,extintor,gata,herramientas,horafinalparte,horainicioparte,kilometrosAbastecimiento,kilometrajefinal, kilometrajeinicio,
             liquidosFrenos,liquidoHidroliga,lucesExteriores,combustible,nivelAceite,nivelAgua,refrigerante,soat,actividad,empresaproveedora,horaentrada,fechaModel()
-            , galonesAbastecimiento,licenciaEmpresa,horasalida,tarjetaPropiedad)
+            , galonesAbastecimiento,"",horasalida,tarjetaPropiedad)
         viewModel.updateParteData(parte).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when(it){
                 is Resource.Loading->{
@@ -174,7 +194,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
     private fun cargarDatosBind(parteDiario: Parte) {
         lbl_fecha_fparte.setText(parteDiario.fechaDia)
         lbl_empresaprov_fparte.setText(parteDiario.empresaProveedora)
-        lbl_empresaprov_licencia.setText(parteDiario.licenciaEmpresa)
+//        lbl_empresaprov_licencia.setText(parteDiario.licenciaEmpresa)
         lbl_horasalida_fparte.setText(parteDiario.salidaGaraje)
         lbl_horaingreso_fparte.setText(parteDiario.entradaGaraje)
         lbl_actividad_fparte.setText(parteDiario.actividad)
@@ -212,7 +232,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
     private fun registrarDatos() {
 
         val empresaproveedora=lbl_empresaprov_fparte.text.toString().trim()
-        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
+//        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
         val horasalida=lbl_horasalida_fparte.text.toString().trim()
         val horaentrada=lbl_horaingreso_fparte.text.toString().trim()
         val actividad=lbl_actividad_fparte.text.toString().trim()
@@ -251,7 +271,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
         //            Ncombustible(combustible),Abastecimiento(kilometrosAbastecimiento,galonesAbastecimiento)
         val parte= Parte(alarmaRetroceso,botiquin,conosSeguridad,espejos,extintor,gata,herramientas,horafinalparte,horainicioparte,kilometrosAbastecimiento,kilometrajefinal, kilometrajeinicio,
             liquidosFrenos,liquidoHidroliga,lucesExteriores,combustible,nivelAceite,nivelAgua,refrigerante,soat,actividad,empresaproveedora,horaentrada,fechaModel()
-            , galonesAbastecimiento,licenciaEmpresa,horasalida,tarjetaPropiedad)
+            , galonesAbastecimiento,"",horasalida,tarjetaPropiedad)
         viewModel.subirParteData(parte,file!!,"carImg").observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when(it){
                 is Resource.Loading->{
@@ -285,7 +305,7 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
     fun comprobarDatos():Boolean{
         val fechaParte=lbl_fecha_fparte.text.toString().trim()
         val empresaproveedora=lbl_empresaprov_fparte.text.toString().trim()
-        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
+//        val licenciaEmpresa=lbl_empresaprov_licencia.text.toString().trim()
         val horasalida=lbl_horasalida_fparte.text.toString().trim()
         val horaentrada=lbl_horaingreso_fparte.text.toString().trim()
         val actividad=lbl_actividad_fparte.text.toString().trim()
@@ -293,8 +313,8 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
         val kilometrajeinicio=lbl_kilometraje_inicio_fparte.text.toString().trim()
         val horafinalparte=lbl_hora_final_fparte.text.toString().trim()
         val kilometrajefinal=lbl_kilometraje_final_fparte.text.toString().trim()
-        val kilometrosAbastecimiento= lbl_kilometraje_abastecimiento_fparte.text.toString().trim()
-        val galonesAbastecimiento= lbl_galones_abastecimiento_fparte.text.toString().trim()
+//        val kilometrosAbastecimiento= lbl_kilometraje_abastecimiento_fparte.text.toString().trim()
+//        val galonesAbastecimiento= lbl_galones_abastecimiento_fparte.text.toString().trim()
         val combustible= niveldeConbustible.text.toString().trim()
         if (combustible.isEmpty()){
             niveldeConbustible.error=" Debe introducir el nivel de combustible"
@@ -311,11 +331,11 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
             lbl_empresaprov_fparte.requestFocus()
             return false
         }
-        if (licenciaEmpresa.isEmpty()){
-            lbl_empresaprov_licencia.error=" Debe introducir la licencia de la empresa"
-            lbl_empresaprov_licencia.requestFocus()
-            return false
-        }
+//        if (licenciaEmpresa.isEmpty()){
+//            lbl_empresaprov_licencia.error=" Debe introducir la licencia de la empresa"
+//            lbl_empresaprov_licencia.requestFocus()
+//            return false
+//        }
         if (horasalida.isEmpty()){
             lbl_horasalida_fparte.error=" Debe introducir la hora que salio del garaje"
             lbl_horasalida_fparte.requestFocus()
@@ -351,16 +371,16 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
             lbl_kilometraje_final_fparte.requestFocus()
             return false
         }
-        if (kilometrosAbastecimiento.isEmpty()){
-            lbl_kilometraje_abastecimiento_fparte.error=" Debe introducir el kilometraje entregado"
-            lbl_kilometraje_abastecimiento_fparte.requestFocus()
-            return false
-        }
-        if (galonesAbastecimiento.isEmpty()){
-            lbl_galones_abastecimiento_fparte.error=" Debe introducir cuantos galones de abastecimiento hay"
-            lbl_galones_abastecimiento_fparte.requestFocus()
-            return false
-        }
+//        if (kilometrosAbastecimiento.isEmpty()){
+//            lbl_kilometraje_abastecimiento_fparte.error=" Debe introducir el kilometraje entregado"
+//            lbl_kilometraje_abastecimiento_fparte.requestFocus()
+//            return false
+//        }
+//        if (galonesAbastecimiento.isEmpty()){
+//            lbl_galones_abastecimiento_fparte.error=" Debe introducir cuantos galones de abastecimiento hay"
+//            lbl_galones_abastecimiento_fparte.requestFocus()
+//            return false
+//        }
         return true
     }
     private fun showDialog() {
@@ -468,11 +488,14 @@ class DashboardFragment : BaseFragment(),KodeinAware, TimePickerDialog.OnTimeSet
             "Kfinal"->{
                 lbl_hora_final_fparte.setText("$hora:$minute hrs")
             }
-            "GarajeSalidainicio"->{
+            "GarajeSalidainicio"-> {
                 lbl_horasalida_fparte.setText("$hora:$minute hrs")
+                lbl_hora_inicio_fparte.setText("$hora:$minute hrs")
             }
             "GarajeEntradaFinal"->{
                 lbl_horaingreso_fparte.setText("$hora:$minute hrs")
+                lbl_hora_final_fparte.setText("$hora:$minute hrs")
+
             }
         }
 

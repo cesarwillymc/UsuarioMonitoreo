@@ -56,6 +56,7 @@ class MainRepository (
         return apiRequest { api.createImgConbustible(file,name,key) }
     }
     suspend fun getParteData() = apiRequest { api.obtenerParte() }
+    suspend fun obtenerParteKilometraje() = apiRequest { api.obtenerParteKilometraje() }
 
     suspend fun getListNotificaciones(pagina:Int)= apiRequest { api.getListNotificaciones(pagina) }
     suspend fun getListNotificacionesById(id:String)= apiRequest { api.getListNotificacionesById(id) }

@@ -72,7 +72,8 @@ class LocationBackground: Service() {
 
     override fun onCreate() {
         val value= PuntosFirebase(0.toDouble(),0.toDouble(),false, getSomeIntValue(
-            PREF_COLOR)!!, getSomeStringValue(PREF_PLACA)!!,getSomeStringValue(PREF_ID_USER)!!,0.toDouble(),0.toDouble())
+            PREF_COLOR)!!, getSomeStringValue(PREF_PLACA)!!,getSomeStringValue(PREF_ID_USER)!!,
+            getSomeStringValue("IDVEHICULO")!!,0.toDouble(),0.toDouble())
         FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!).set(value)
 //        datosCar=AppDB(getContextApp()).vehiculoDao().selectCarro().value!!
         super.onCreate()
@@ -103,14 +104,14 @@ class LocationBackground: Service() {
                 mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
                 trabajo=Coroutines.main{
 
-                    repeat(800000){
+                    repeat(90000000){
                         try {
                             mFusedLocationClient
                                 .lastLocation
                                 .addOnCompleteListener {
                                     if (it.isSuccessful && it.result != null) {
                                         mLocation = it.result
-                                        displayNotify("Daloo Rider esta obteniendo tu ubicacion!.","Mantente conectado: ${mLocation!!.latitude}   ${mLocation!!.longitude}")
+                                        displayNotify("San Miguel esta obteniendo tu ubicacion!.","Mantente conectado: ${mLocation!!.latitude}   ${mLocation!!.longitude}")
 
                                         if (latitudAnterior==0.toDouble()&&longitudAnterior==0.toDouble()){
                                             latitudAnterior=mLocation!!.latitude
@@ -132,7 +133,7 @@ class LocationBackground: Service() {
                                             puntob.distanceTo(puntoa)
                                         }
                                         Log.e("metros"," $metros \n $latitude  $longitude   \n ${latitudAnterior} ${longitudAnterior}" )
-                                        if (metros<1500 ){
+                                        if (metros<=500 ){
                                             FirebaseFirestore.getInstance().collection("vehiculos").document(getSomeStringValue(PREF_ID_USER)!!)
                                                 .update("latitude",mLocation!!.latitude,"longitude",mLocation!!.longitude,
                                                     "latAnterior",latitudAnterior,"latPosterior",longitudAnterior,"state",true).addOnCompleteListener {
@@ -151,7 +152,7 @@ class LocationBackground: Service() {
                         } catch (unlikely: SecurityException) {
                             Log.e(TAG, "Lost location permission.$unlikely")
                         }
-                        delay(2000L)
+                        delay(20000L)
                     }
 
                 }
@@ -174,13 +175,13 @@ class LocationBackground: Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
-                    "DalooRider",
-                    "DalooRider",
+                    "San Miguel",
+                    "San Miguel",
                     NotificationManager.IMPORTANCE_DEFAULT
                 )
             manager.createNotificationChannel(channel)
         }
-        val builder = NotificationCompat.Builder(applicationContext, "DalooRider")
+        val builder = NotificationCompat.Builder(applicationContext, "San Miguel")
             .setContentTitle(task).setContentText(desc).setSmallIcon(R.mipmap.ic_launcher)
         manager.notify(1, builder.build())
 
