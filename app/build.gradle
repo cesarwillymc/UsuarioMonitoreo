@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.bugsnag.android.gradle"
 
 android {
     compileSdkVersion 29
@@ -110,7 +111,7 @@ dependencies {
     implementation "androidx.palette:palette:1.0.0"
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-
+    implementation "com.bugsnag:bugsnag-android:5.+"
     //Kodein
     implementation "org.kodein.di:kodein-di-generic-jvm:6.3.2"
     implementation "org.kodein.di:kodein-di-framework-android-x:6.3.2"

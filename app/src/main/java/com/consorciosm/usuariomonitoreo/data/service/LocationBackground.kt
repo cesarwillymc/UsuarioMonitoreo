@@ -186,4 +186,5 @@ class LocationBackground: Service() {
         manager.notify(1, builder.build())
 
     }
+
 }

@@ -17,6 +17,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_sanmiguel_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ui.main.MainActivity"
@@ -24,7 +28,9 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="32334020fc164e37e3e82d2f9267eece"/>
         <service android:name=".data.service.LocationBackground" />
 
         <activity android:name=".ui.SphashScreen" >
